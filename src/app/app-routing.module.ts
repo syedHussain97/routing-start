@@ -6,10 +6,10 @@ import {ServersComponent} from './servers/servers.component';
 import {EditServerComponent} from './servers/edit-server/edit-server.component';
 import {UsersComponent} from './users/users.component';
 import {ServerComponent} from './servers/server/server.component';
-import {PagenotfoundComponent} from './pagenotfound/pagenotfound.component';
 import {AuthGuard} from './auth-guard.service';
 import {CanDeactivateGuard} from './servers/edit-server/can-deactivate-guard.service';
 import {ErrorPageComponent} from './error-page/error-page.component';
+import {ServerResolver} from './servers/server/server-resolver.service';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -22,12 +22,12 @@ const appRoutes: Routes = [
     canActivateChild: [AuthGuard],
     component: ServersComponent,
     children: [
-      {path: ':id', canActivateChild: [AuthGuard], component: ServerComponent},
+      {path: ':id', canActivateChild: [AuthGuard], component: ServerComponent, resolve: {server: ServerResolver}},
       {path: ':id/edit', canActivateChild: [AuthGuard], component: EditServerComponent, canDeactivate: [CanDeactivateGuard]}
     ]
   },
   {
-   // path: 'not-found', component: PagenotfoundComponent
+    // path: 'not-found', component: PagenotfoundComponent
     path: 'not-found', component: ErrorPageComponent, data: {message: 'Page not found!'}
   },
   {
